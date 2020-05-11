@@ -40,7 +40,7 @@ class GroupeController extends Controller
             $groupe->save();
             if(!empty($request->input('selectedIndividus'))) {
                 foreach($request->input('selectedIndividus') as $unIndividu) {
-                    $individusToGroup = ['idGroupe' => $groupe->idGroupe, 'idIndividu' => $unIndividu, 'annee' => now()->format('Y')];
+                    $individusToGroup[] = ['idGroupe' => $groupe->idGroupe, 'idIndividu' => $unIndividu, 'annee' => now()->format('Y')];
                 }
                 Appartenance::insert($individusToGroup);
             }
@@ -69,8 +69,8 @@ class GroupeController extends Controller
                 $data['groupe']->save();
                 if(!empty($request->input('selectedIndividus'))) {
                     foreach($request->input('selectedIndividus') as $unIndividu) {
-                        if(!in_array($unIndividu, $appartenance)) {
-                            $individusToGroup = ['idGroupe' => $idGroup, 'idIndividu' => $unIndividu, 'annee' => now()->format('Y')];
+                        if(!in_array((int) $unIndividu, $appartenance)) {
+                            $individusToGroup[] = ['idGroupe' => $idGroup, 'idIndividu' => (int) $unIndividu, 'annee' => now()->format('Y')];
                         }
                     }
                     //On supprime de la bdd les groupes décochés
